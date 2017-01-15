@@ -1,0 +1,316 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>myMainScript</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-08-11"><meta name="DC.source" content="myMainScript.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">MyMainScript</a></li><li><a href="#2">Your code here</a></li></ul></div><h2>MyMainScript<a name="1"></a></h2><pre class="codeinput">tic;
+</pre><h2>Your code here<a name="2"></a></h2><pre class="codeinput">barbara = imread(<span class="string">'../data/barbara.png'</span>);
+canyon = imread(<span class="string">'../data/canyon.png'</span>);
+tem = imread(<span class="string">'../data/TEM.png'</span>);
+canyon_r = canyon(:,:,1);
+canyon_g = canyon(:,:,2);
+canyon_b = canyon(:,:,3);
+
+barbara_lc = myLinearContrastStretching(barbara, 30, 10, 170,220);
+barbara_he = myHE_n(barbara);
+barbara_ahe = myAHE_n(barbara, 101);
+barbara_clahe = myCLAHE_n(barbara, 100, 101);
+
+canyon_lc(:,:,1) = myLinearContrastStretching(canyon_r, 50, 100, 180, 150);
+canyon_lc(:,:,2) = myLinearContrastStretching(canyon_g, 50, 100, 255, 255);
+canyon_lc(:,:,3) = myLinearContrastStretching(canyon_b,50, 100, 255, 255);
+
+canyon_he = myHE_n(canyon);
+canyon_ahe = myAHE_n(canyon, 101);
+canyon_clahe = myCLAHE_n(canyon, 100, 101);
+
+tem_lc = myLinearContrastStretching(tem, 100, 10, 210,250);
+tem_he = myHE_n(tem);
+tem_ahe = myAHE_n(tem, 101);
+tem_clahe = myCLAHE_n(tem, 100, 101);
+
+figure(<span class="string">'Name'</span>,<span class="string">'original image Barbara'</span>);
+    imshow(barbara);
+figure(<span class="string">'Name'</span>, <span class="string">'linear contrast Barbara'</span>);
+    imshow(barbara_lc);
+figure(<span class="string">'Name'</span>,<span class="string">'HE Barbara'</span>);
+    imshow(barbara_ahe);
+figure(<span class="string">'Name'</span>,<span class="string">'AHE Barbara'</span>);
+    imshow(barbara_he);
+figure(<span class="string">'Name'</span>,<span class="string">'CLAHE Barbara'</span>);
+    imshow(barbara_clahe);
+
+figure(<span class="string">'Name'</span>,<span class="string">'original image Canyon'</span>);
+    imshow(canyon);
+figure(<span class="string">'Name'</span>, <span class="string">'LC Canyon'</span>);
+    imshow(canyon_lc);
+figure(<span class="string">'Name'</span>,<span class="string">'HE Canyon'</span>);
+    imshow(canyon_he);
+figure(<span class="string">'Name'</span>,<span class="string">'AHE Canyon'</span>);
+    imshow(canyon_ahe);
+figure(<span class="string">'Name'</span>,<span class="string">'CLAHE Canyon'</span>);
+    imshow(canyon_ahe);
+
+figure(<span class="string">'Name'</span>,<span class="string">'original image Tem'</span>);
+    imshow(tem);
+figure(<span class="string">'Name'</span>, <span class="string">'linear contrast Tem'</span>);
+    imshow(tem_lc);
+figure(<span class="string">'Name'</span>,<span class="string">'HE Tem'</span>);
+    imshow(tem_he);
+figure(<span class="string">'Name'</span>,<span class="string">'AHE Tem'</span>);
+    imshow(tem_ahe);
+figure(<span class="string">'Name'</span>,<span class="string">'CLAHE Tem'</span>);
+    imshow(tem_clahe);
+
+toc;
+</pre><pre class="codeoutput">Elapsed time is 46.399471 seconds.
+Elapsed time is 61.279999 seconds.
+Elapsed time is 58.985178 seconds.
+Elapsed time is 50.324136 seconds.
+Elapsed time is 51.737737 seconds.
+Elapsed time is 59.436142 seconds.
+Elapsed time is 50.820980 seconds.
+Elapsed time is 54.555541 seconds.
+Elapsed time is 83.043821 seconds.
+Elapsed time is 90.041208 seconds.
+Elapsed time is 95.509874 seconds.
+</pre>
+
+
+<figure>
+<img vspace="5" hspace="5" src="myMainScript_01.png" alt="">
+<figcaption>Fig.1 - Original Image of Barbara</figcaption>
+</figure>
+
+<figure>
+ <img vspace="5" hspace="5" src="myMainScript_02.png" alt="">
+ <figcaption>Fig.2 - linear Contrat Image of Barbara</figcaption> 
+ </figure>
+
+ <figure>
+ <img vspace="5" hspace="5" src="myMainScript_03.png" alt="">
+  <figcaption>Fig.3 - Histogram Equalized Image of Barbara</figcaption> 
+ </figure>
+
+<figure>
+  <img vspace="5" hspace="5" src="myMainScript_04.png" alt=""> 
+    <figcaption>Fig.4 - Adaptive Histogram Equalized (with N = 101) Image of Barbara</figcaption> 
+</figure>
+
+<figure>
+<img vspace="5" hspace="5" src="myMainScript_05.png" alt=""> 
+    <figcaption>Fig.5 - Contrast Limited Adaptive Histogram Equalized (with N = 101, threshold = 100) Image of Barbara</figcaption> 
+</figure>
+
+<figure>
+<img vspace="5" hspace="5" src="myMainScript_06.png" alt=""> 
+<figcaption>Fig.6 - Original Image of Canyon</figcaption>
+</figure>
+<figure>
+ <img vspace="5" hspace="5" src="myMainScript_07.png" alt="">
+ <figcaption>Fig.7 - linear Contrat Image of Canyon</figcaption> 
+ </figure>
+ <figure>
+ <img vspace="5" hspace="5" src="myMainScript_08.png" alt=""> 
+   <figcaption>Fig.8 - Histogram Equalized Image of Canyon</figcaption> 
+ </figure>
+ <figure>
+ <img vspace="5" hspace="5" src="myMainScript_09.png" alt=""> 
+     <figcaption>Fig.9 - Adaptive Histogram Equalized (with N = 101) Image of Canyon</figcaption> 
+ </figure>
+
+ <figure>
+ <img vspace="5" hspace="5" src="myMainScript_10.png" alt=""> 
+     <figcaption>Fig.10 - Contrast Limited Adaptive Histogram Equalized (with N = 101, threshold = 100) Image of Canyon</figcaption> 
+ </figure>
+ <figure>
+ <img vspace="5" hspace="5" src="myMainScript_11.png" alt=""> 
+ <figcaption>Fig.11 - Original Image of TEM</figcaption>
+ </figure>
+ <figure>
+ <img vspace="5" hspace="5" src="myMainScript_12.png" alt=""> 
+  <figcaption>Fig.12 - linear Contrat Image of TEM</figcaption> 
+ </figure>
+ <figure>
+ <img vspace="5" hspace="5" src="myMainScript_13.png" alt="">
+    <figcaption>Fig.13 - Histogram Equalized Image of TEM</figcaption> 
+ </figure>
+ <figure>
+  <img vspace="5" hspace="5" src="myMainScript_14.png" alt="">
+       <figcaption>Fig.14 - Adaptive Histogram Equalized (with N = 101) Image of TEM</figcaption> 
+  </figure>
+  <figure>
+   <img vspace="5" hspace="5" src="myMainScript_15.png" alt="">
+        <figcaption>Fig.15 - Contrast Limited Adaptive Histogram Equalized (with N = 101, threshold = 100) Image of TEM</figcaption> 
+
+   </figure>
+    <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div>
+
+<h1>Linear Contrast Stretching</h1>
+<p size="14">The function basically implements a piece wise linear function, which transforms every pixels in the input image to the corresponding pixels in the output image. For this we have used parameters a,b,c,d which implements the piece wise linear function (0,0) to (a,b) to (c,d) to (255, 255).</p>
+
+<h1>Adaptive Histogram Equalization</h1>
+<p size="14"> The function is used to perform Adaptive Histogram equalization on an image passed as inputImage using a window size of N  (default assumed to be an odd number). The method uses two custom defined functions myHE (which is our implementation of histogram equalisation) and getNeighbourhoodWindow which is used to get a submatrix with (i.j) as center and size NxN. The images are operated upon with a window size of 5 to show the amplification of noise and with a size of 101 to show the low contrast enhancement.
+   <figure>
+  <img vspace="5" hspace="5" src="./attachments/barbara5.png" alt="">
+       <figcaption>Fig 1 : Adaptive Histogram equalization with a small window size of 5 to show amplification of noise</figcaption> 
+  </figure>
+  <figure>
+  <img vspace="5" hspace="5" src="./attachments/barbara45.png" alt="">
+       <figcaption>Fig 2 : Normal Adaptive Histogram equalization (window size = 45)</figcaption> 
+  </figure>
+    <figure>
+  <img vspace="5" hspace="5" src="./attachments/barbara101.png" alt="">
+       <figcaption>Fig 3 : Adaptive Histogram equalization with a large window size of 101 to show low contrast effect</figcaption> 
+  </figure>
+      <figure>
+  <img vspace="5" hspace="5" src="./attachments/canyon45.png" alt="">
+       <figcaption>Fig 4 : Normal Adaptive Histogram equalization (window size = 45)</figcaption> 
+  </figure>
+        <figure>
+  <img vspace="5" hspace="5" src="./attachments/tem5.png" alt="">
+       <figcaption>Fig 5 : Adaptive Histogram equalization with a small window size of 5 to show amplification of noise</figcaption> 
+  </figure>
+          <figure>
+  <img vspace="5" hspace="5" src="./attachments/tem45.png" alt="">
+       <figcaption>Fig 6 : Normal Adaptive Histogram equalization (window size = 45)</figcaption> 
+  </figure>
+           <figure>
+  <img vspace="5" hspace="5" src="./attachments/tem101.png" alt="">
+       <figcaption>Fig 7 : Adaptive Histogram equalization with a large window size of 101 to show low contrast effect</figcaption> 
+  </figure>
+</p>
+
+
+    <!--
+##### SOURCE BEGIN #####
+%% MyMainScript
+
+tic;
+%% Your code here
+barbara = imread('../data/barbara.png');
+canyon = imread('../data/canyon.png');
+tem = imread('../data/TEM.png');
+canyon_r = canyon(:,:,1);
+canyon_g = canyon(:,:,2);
+canyon_b = canyon(:,:,3);
+
+barbara_lc = myLinearContrastStretching(barbara, 30, 10, 170,220);
+barbara_he = myHE_n(barbara);
+barbara_ahe = myAHE_n(barbara, 101);
+barbara_clahe = myCLAHE_n(barbara, 100, 101);
+
+canyon_lc(:,:,1) = myLinearContrastStretching(canyon_r, 50, 100, 180, 150);
+canyon_lc(:,:,2) = myLinearContrastStretching(canyon_g, 50, 100, 255, 255);
+canyon_lc(:,:,3) = myLinearContrastStretching(canyon_b,50, 100, 255, 255);
+
+canyon_he = myHE_n(canyon);
+canyon_ahe = myAHE_n(canyon, 101);
+canyon_clahe = myCLAHE_n(canyon, 100, 101);
+
+tem_lc = myLinearContrastStretching(tem, 100, 10, 210,250);
+tem_he = myHE_n(tem);
+tem_ahe = myAHE_n(tem, 101);
+tem_clahe = myCLAHE_n(tem, 100, 101);
+
+figure('Name','original image Barbara');
+    imshow(barbara);
+figure('Name', 'linear contrast Barbara');
+    imshow(barbara_lc);
+figure('Name','HE Barbara');
+    imshow(barbara_ahe);    
+figure('Name','AHE Barbara');
+    imshow(barbara_he);  
+figure('Name','CLAHE Barbara');
+    imshow(barbara_clahe);  
+    
+figure('Name','original image Canyon');
+    imshow(canyon);
+figure('Name', 'LC Canyon');
+    imshow(canyon_lc);
+figure('Name','HE Canyon');
+    imshow(canyon_he);    
+figure('Name','AHE Canyon');
+    imshow(canyon_ahe);  
+figure('Name','CLAHE Canyon');
+    imshow(canyon_ahe);  
+    
+figure('Name','original image Tem');
+    imshow(tem);
+figure('Name', 'linear contrast Tem');
+    imshow(tem_lc);
+figure('Name','HE Tem');
+    imshow(tem_he);    
+figure('Name','AHE Tem');
+    imshow(tem_ahe);  
+figure('Name','CLAHE Tem');
+    imshow(tem_clahe);  
+
+toc;
+
+
+##### SOURCE END #####
+--></body></html>
