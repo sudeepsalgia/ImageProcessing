@@ -1,3 +1,3 @@
 # ImageProcessing
 
-This is a compilation of all the image processing projects and assignments for my reference.
+This is a compilation of image processing projects and assignments for my reference.
