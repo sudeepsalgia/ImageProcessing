@@ -1,0 +1,383 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>mainScript</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-02-12"><meta name="DC.source" content="mainScript.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">PART 1</a></li><li><a href="#3">PART 2</a></li><li><a href="#4">PART 3</a></li></ul></div><pre class="codeinput">ph = phantom(256);
+figure;
+imshow(ph);
+thetaVec = 0:3:177;
+[R, t1] = radon(ph, thetaVec);
+</pre><h2>PART 1<a name="2"></a></h2><pre class="codeinput">RnewRL = zeros(size(R));
+RnewSL = zeros(size(R));
+RnewC = zeros(size(R));
+<span class="keyword">for</span> theta = 0 : 3 : 177,
+    Rin = R(:,theta/3 + 1);
+    RnewRL(:,theta/3 + 1) = myFilter(Rin, 1, 1);
+    RnewSL(:,theta/3 + 1) = myFilter(Rin, 1, 2);
+    RnewC(:,theta/3 + 1) = myFilter(Rin, 1, 3);
+<span class="keyword">end</span>;
+
+figure;
+iR = iradon(R , thetaVec, <span class="string">'linear'</span>);
+subplot(1,4,1), imshow((iR)), title(<span class="string">'No Filter'</span>);
+
+iR1 = 2*iradon(RnewRL, thetaVec, <span class="string">'linear'</span>, <span class="string">'none'</span>);
+subplot(1,4,2), imshow(uint8(iR1)), title(<span class="string">'RamLak L=w'</span>);
+
+iR2 = 2*iradon(RnewSL, thetaVec, <span class="string">'linear'</span>, <span class="string">'none'</span>);
+subplot(1,4,3), imshow(uint8(iR2)), title(<span class="string">'SheepLogan L=w'</span>);
+
+iR3 = 2*iradon(RnewC, thetaVec, <span class="string">'linear'</span>, <span class="string">'none'</span>);
+subplot(1,4,4), imshow(uint8(iR3)), title(<span class="string">'Cosine L=w'</span>);
+
+<span class="keyword">for</span> theta = 0 : 3 : 177,
+    Rin = R(:,theta/3 + 1);
+    RnewRL(:,theta/3 + 1) = myFilter(Rin, 2, 1);
+    RnewSL(:,theta/3 + 1) = myFilter(Rin, 2, 2);
+    RnewC(:,theta/3 + 1) = myFilter(Rin, 2, 3);
+<span class="keyword">end</span>;
+
+figure;
+iR = iradon(R , thetaVec, <span class="string">'linear'</span>);
+subplot(1,4,1), imshow((iR)), title(<span class="string">'No Filter'</span>);
+
+iR1 = 2*iradon(RnewRL, thetaVec, <span class="string">'linear'</span>, <span class="string">'none'</span>);
+subplot(1,4,2), imshow(uint8(iR1)), title(<span class="string">'RamLak L=w/2'</span>);
+
+iR2 = 2*iradon(RnewSL, thetaVec, <span class="string">'linear'</span>, <span class="string">'none'</span>);
+subplot(1,4,3), imshow(uint8(iR2)), title(<span class="string">'SheepLogan L=w/2'</span>);
+
+iR3 = 2*iradon(RnewC, thetaVec, <span class="string">'linear'</span>, <span class="string">'none'</span>);
+subplot(1,4,4), imshow(uint8(iR3)), title(<span class="string">'Cosine L=w/2'</span>);
+</pre><h2>PART 2<a name="3"></a></h2><pre class="codeinput">mask1 = fspecial(<span class="string">'gaussian'</span> , 11 , 1);
+ph1 = conv2(ph, mask1, <span class="string">'same'</span>);
+
+mask5 = fspecial(<span class="string">'gaussian'</span> , 51 , 5);
+ph5 = conv2(ph, mask5, <span class="string">'same'</span>);
+
+figure;
+subplot(1,3,1), imshow((ph)), title(<span class="string">'No Blur'</span>);
+subplot(1,3,2), imshow((ph1)), title(<span class="string">'Blur Mask 1'</span>);
+subplot(1,3,3), imshow((ph5)), title(<span class="string">'Blur Mask 5'</span>);
+
+[Rr0 t] = radon(ph, thetaVec);
+[Rr1 t] = radon(ph1, thetaVec);
+[Rr5 t] = radon(ph5, thetaVec);
+RnewRL0 = zeros(size(Rr0));
+RnewRL1 = zeros(size(Rr0));
+RnewRL5 = zeros(size(Rr0));
+
+Rin = zeros(size(Rr0(:,1)));
+<span class="keyword">for</span> theta = 0 : 3 : 177,
+    Rin = Rr0(:,theta/3 + 1);
+    RnewRL0(:,theta/3 + 1) = myFilter(Rin, 1, 1);
+<span class="keyword">end</span>;
+
+<span class="keyword">for</span> theta = 0 : 3 : 177,
+    Rin = Rr1(:,theta/3 + 1);
+    RnewRL1(:,theta/3 + 1) = myFilter(Rin, 1, 1);
+<span class="keyword">end</span>;
+
+<span class="keyword">for</span> theta = 0 : 3 : 177,
+    Rin = Rr5(:,theta/3 + 1);
+    RnewRL5(:,theta/3 + 1) = myFilter(Rin, 1, 1);
+<span class="keyword">end</span>;
+
+figure;
+R0 = 2*iradon(RnewRL0, thetaVec, <span class="string">'linear'</span>, <span class="string">'none'</span>, 256);
+imshow(uint8(R0));
+title(<span class="string">'Reconstruction with No Blur'</span>);
+
+figure;
+R1 = 2*iradon(RnewRL1, thetaVec, <span class="string">'linear'</span>, <span class="string">'none'</span>, 256);
+imshow(uint8(R1));
+title(<span class="string">'Reconstruction with Blur Mask 1'</span>);
+
+figure;
+R5 = 2*iradon(RnewRL5, thetaVec, <span class="string">'linear'</span>, <span class="string">'none'</span>, 256);
+imshow(uint8(R5));
+title(<span class="string">'Reconstruction with Blur Mask 5'</span>);
+
+RRMSE0 = norm((R0/255 - ph), <span class="string">'fro'</span>)/norm(ph, <span class="string">'fro'</span>);
+disp(<span class="string">'RRMSE for No Gaussian Blur: '</span>);
+disp(RRMSE0);
+
+RRMSE1 = norm((R1/255 - ph1), <span class="string">'fro'</span>)/norm(ph1, <span class="string">'fro'</span>);
+disp(<span class="string">'RRMSE for Gaussian Blur Mask 1: '</span>);
+disp(RRMSE1);
+
+RRMSE5 = norm((R5/255 - ph5), <span class="string">'fro'</span>)/norm(ph5, <span class="string">'fro'</span>);
+disp(<span class="string">'RRMSE for Gaussian Blur Mask 5: '</span>);
+disp(RRMSE5);
+</pre><h2>PART 3<a name="4"></a></h2><pre class="codeinput">Rin = zeros(size(Rr0(:,1)));
+RRMSE03 = zeros((size(Rr0,1) - 1)/2,1);
+<span class="keyword">for</span> l = 1:(size(Rr0,1) - 1)/2
+    <span class="keyword">for</span> theta = 0 : 3 : 177,
+        Rin = Rr0(:,theta/3 + 1);
+        RnewRL0(:,theta/3 + 1) = myFilter(Rin, l, 4);
+    <span class="keyword">end</span>;
+    R0 = 2*iradon(RnewRL0, thetaVec, <span class="string">'linear'</span>, <span class="string">'none'</span>, 256);
+    RRMSE03(l) = norm((R0/255 - ph), <span class="string">'fro'</span>)/norm(ph, <span class="string">'fro'</span>);
+<span class="keyword">end</span>;
+figure;
+plot(RRMSE03, <span class="string">'r'</span>);
+hold <span class="string">on</span>;
+
+Rin = zeros(size(Rr1(:,1)));
+RRMSE13 = zeros((size(Rr1,1) - 1)/2,1);
+<span class="keyword">for</span> l = 1:(size(Rr1,1) - 1)/2
+    <span class="keyword">for</span> theta = 0 : 3 : 177,
+        Rin = Rr1(:,theta/3 + 1);
+        RnewRL1(:,theta/3 + 1) = myFilter(Rin, l, 4);
+    <span class="keyword">end</span>;
+    R1 = 2*iradon(RnewRL1, thetaVec, <span class="string">'linear'</span>, <span class="string">'none'</span>, 256);
+    RRMSE13(l) = norm((R1/255 - ph1), <span class="string">'fro'</span>)/norm(ph1, <span class="string">'fro'</span>);
+<span class="keyword">end</span>;
+plot(RRMSE13, <span class="string">'g'</span>);
+
+Rin = zeros(size(Rr5(:,1)));
+RRMSE53 = zeros((size(Rr5,1) - 1)/2,1);
+<span class="keyword">for</span> l = 1:(size(Rr5,1) - 1)/2
+    <span class="keyword">for</span> theta = 0 : 3 : 177,
+        Rin = Rr5(:,theta/3 + 1);
+        RnewRL5(:,theta/3 + 1) = myFilter(Rin, l, 4);
+    <span class="keyword">end</span>;
+    R5 = 2*iradon(RnewRL5, thetaVec, <span class="string">'linear'</span>, <span class="string">'none'</span>, 256);
+    RRMSE53(l) = norm((R5/255 - ph5), <span class="string">'fro'</span>)/norm(ph5, <span class="string">'fro'</span>);
+<span class="keyword">end</span>;
+plot(RRMSE53, <span class="string">'b'</span>);
+legend(<span class="string">'No Blur'</span> , <span class="string">'Blur Mask 1'</span> , <span class="string">'Blur Mask 5'</span>);
+title(<span class="string">'RRMSE vs L'</span>);
+</pre><pre class="codeoutput">RRMSE for No Gaussian Blur: 
+    0.5001
+
+RRMSE for Gaussian Blur Mask 1: 
+    0.3940
+
+RRMSE for Gaussian Blur Mask 5: 
+    0.3355
+
+</pre><img vspace="5" hspace="5" src="mainScript_01.png" alt=""> <img vspace="5" hspace="5" src="mainScript_02.png" alt=""> <img vspace="5" hspace="5" src="mainScript_03.png" alt=""> <img vspace="5" hspace="5" src="mainScript_04.png" alt=""> <img vspace="5" hspace="5" src="mainScript_05.png" alt=""> <img vspace="5" hspace="5" src="mainScript_06.png" alt=""> <img vspace="5" hspace="5" src="mainScript_07.png" alt=""> <img vspace="5" hspace="5" src="mainScript_08.png" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+
+ph = phantom(256);
+figure;
+imshow(ph);
+thetaVec = 0:3:177;
+[R, t1] = radon(ph, thetaVec);
+
+%%% PART 1
+RnewRL = zeros(size(R));
+RnewSL = zeros(size(R));
+RnewC = zeros(size(R));
+for theta = 0 : 3 : 177,
+    Rin = R(:,theta/3 + 1);
+    RnewRL(:,theta/3 + 1) = myFilter(Rin, 1, 1);
+    RnewSL(:,theta/3 + 1) = myFilter(Rin, 1, 2);
+    RnewC(:,theta/3 + 1) = myFilter(Rin, 1, 3);
+end;
+
+figure;
+iR = iradon(R , thetaVec, 'linear');
+subplot(1,4,1), imshow((iR)), title('No Filter');
+
+iR1 = 2*iradon(RnewRL, thetaVec, 'linear', 'none');
+subplot(1,4,2), imshow(uint8(iR1)), title('RamLak L=w');
+
+iR2 = 2*iradon(RnewSL, thetaVec, 'linear', 'none');
+subplot(1,4,3), imshow(uint8(iR2)), title('SheepLogan L=w');
+
+iR3 = 2*iradon(RnewC, thetaVec, 'linear', 'none');
+subplot(1,4,4), imshow(uint8(iR3)), title('Cosine L=w');
+
+for theta = 0 : 3 : 177,
+    Rin = R(:,theta/3 + 1);
+    RnewRL(:,theta/3 + 1) = myFilter(Rin, 2, 1);
+    RnewSL(:,theta/3 + 1) = myFilter(Rin, 2, 2);
+    RnewC(:,theta/3 + 1) = myFilter(Rin, 2, 3);
+end;
+
+figure;
+iR = iradon(R , thetaVec, 'linear');
+subplot(1,4,1), imshow((iR)), title('No Filter');
+
+iR1 = 2*iradon(RnewRL, thetaVec, 'linear', 'none');
+subplot(1,4,2), imshow(uint8(iR1)), title('RamLak L=w/2');
+
+iR2 = 2*iradon(RnewSL, thetaVec, 'linear', 'none');
+subplot(1,4,3), imshow(uint8(iR2)), title('SheepLogan L=w/2');
+
+iR3 = 2*iradon(RnewC, thetaVec, 'linear', 'none');
+subplot(1,4,4), imshow(uint8(iR3)), title('Cosine L=w/2');
+
+
+%%% PART 2
+
+mask1 = fspecial('gaussian' , 11 , 1);
+ph1 = conv2(ph, mask1, 'same');
+
+mask5 = fspecial('gaussian' , 51 , 5);
+ph5 = conv2(ph, mask5, 'same');
+
+figure;
+subplot(1,3,1), imshow((ph)), title('No Blur');
+subplot(1,3,2), imshow((ph1)), title('Blur Mask 1');
+subplot(1,3,3), imshow((ph5)), title('Blur Mask 5');
+
+[Rr0 t] = radon(ph, thetaVec);
+[Rr1 t] = radon(ph1, thetaVec);
+[Rr5 t] = radon(ph5, thetaVec);
+RnewRL0 = zeros(size(Rr0));
+RnewRL1 = zeros(size(Rr0));
+RnewRL5 = zeros(size(Rr0));
+
+Rin = zeros(size(Rr0(:,1)));
+for theta = 0 : 3 : 177,
+    Rin = Rr0(:,theta/3 + 1);
+    RnewRL0(:,theta/3 + 1) = myFilter(Rin, 1, 1);
+end;
+
+for theta = 0 : 3 : 177,
+    Rin = Rr1(:,theta/3 + 1);
+    RnewRL1(:,theta/3 + 1) = myFilter(Rin, 1, 1);
+end;
+
+for theta = 0 : 3 : 177,
+    Rin = Rr5(:,theta/3 + 1);
+    RnewRL5(:,theta/3 + 1) = myFilter(Rin, 1, 1);
+end;
+
+figure;
+R0 = 2*iradon(RnewRL0, thetaVec, 'linear', 'none', 256);
+imshow(uint8(R0));
+title('Reconstruction with No Blur');
+
+figure;
+R1 = 2*iradon(RnewRL1, thetaVec, 'linear', 'none', 256);
+imshow(uint8(R1));
+title('Reconstruction with Blur Mask 1');
+
+figure;
+R5 = 2*iradon(RnewRL5, thetaVec, 'linear', 'none', 256);
+imshow(uint8(R5));
+title('Reconstruction with Blur Mask 5');
+
+RRMSE0 = norm((R0/255 - ph), 'fro')/norm(ph, 'fro');
+disp('RRMSE for No Gaussian Blur: ');
+disp(RRMSE0);
+
+RRMSE1 = norm((R1/255 - ph1), 'fro')/norm(ph1, 'fro');
+disp('RRMSE for Gaussian Blur Mask 1: ');
+disp(RRMSE1);
+
+RRMSE5 = norm((R5/255 - ph5), 'fro')/norm(ph5, 'fro');
+disp('RRMSE for Gaussian Blur Mask 5: ');
+disp(RRMSE5);
+
+
+%%% PART 3
+Rin = zeros(size(Rr0(:,1)));
+RRMSE03 = zeros((size(Rr0,1) - 1)/2,1);
+for l = 1:(size(Rr0,1) - 1)/2
+    for theta = 0 : 3 : 177,
+        Rin = Rr0(:,theta/3 + 1);
+        RnewRL0(:,theta/3 + 1) = myFilter(Rin, l, 4);
+    end;
+    R0 = 2*iradon(RnewRL0, thetaVec, 'linear', 'none', 256);
+    RRMSE03(l) = norm((R0/255 - ph), 'fro')/norm(ph, 'fro');
+end;
+figure;
+plot(RRMSE03, 'r');
+hold on;
+
+Rin = zeros(size(Rr1(:,1)));
+RRMSE13 = zeros((size(Rr1,1) - 1)/2,1);
+for l = 1:(size(Rr1,1) - 1)/2
+    for theta = 0 : 3 : 177,
+        Rin = Rr1(:,theta/3 + 1);
+        RnewRL1(:,theta/3 + 1) = myFilter(Rin, l, 4);
+    end;
+    R1 = 2*iradon(RnewRL1, thetaVec, 'linear', 'none', 256);
+    RRMSE13(l) = norm((R1/255 - ph1), 'fro')/norm(ph1, 'fro');
+end;
+plot(RRMSE13, 'g');
+
+Rin = zeros(size(Rr5(:,1)));
+RRMSE53 = zeros((size(Rr5,1) - 1)/2,1);
+for l = 1:(size(Rr5,1) - 1)/2
+    for theta = 0 : 3 : 177,
+        Rin = Rr5(:,theta/3 + 1);
+        RnewRL5(:,theta/3 + 1) = myFilter(Rin, l, 4);
+    end;
+    R5 = 2*iradon(RnewRL5, thetaVec, 'linear', 'none', 256);
+    RRMSE53(l) = norm((R5/255 - ph5), 'fro')/norm(ph5, 'fro');
+end;
+plot(RRMSE53, 'b');
+legend('No Blur' , 'Blur Mask 1' , 'Blur Mask 5');
+title('RRMSE vs L');
+##### SOURCE END #####
+--></body></html>
